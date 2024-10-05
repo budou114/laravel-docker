@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html
 
-
 RUN docker-php-ext-install pdo pdo_mysql
 
-# CMD ["php-fpm"]
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug

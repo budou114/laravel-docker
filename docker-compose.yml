@@ -21,7 +21,7 @@ services:
       - mysql
     volumes:
       - ./laravel/:/var/www/html
-      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./infra/php/php.ini:/usr/local/etc/php/php.ini
     networks:
       - laravel-net
 
