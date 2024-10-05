@@ -1,0 +1,61 @@
+version: '3'
+services:
+  nginx:
+    container_name: "nginx"
+    build:
+      context: ./infra/nginx
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    volumes:
+      - ./:/src
+    networks:
+      - laravel-net
+
+  app:
+    container_name: "app"
+    build:
+      context: ./infra/php
+    depends_on:
+      - mysql
+    volumes:
+      - ./laravel/:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - laravel-net
+
+  mysql:
+    image: mysql:8.0.37
+    container_name: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3306:3306
+    networks:
+      - laravel-net
+
+  redis:
+    image: redis:alpine
+    container_name: "redis"
+    ports:
+      - 16379:6379
+    networks:
+      - laravel-net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "8081:80"
+    networks:
+      - laravel-net
+
+networks:
+  laravel-net:
