@@ -27,3 +27,6 @@ DB_PASSWORD={mysqlのパスワード}
 ```
 docker-compose exec app php artisan migrate
 ```
+
+### 本プロジェクトの使用サンプル
+[laravelプロジェクト](https://github.com/budou114/study-laravel-livewire)
